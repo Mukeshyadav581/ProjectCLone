@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Grid3X3, Check } from 'lucide-react';
+import { Grid3X3, Check, Gem } from 'lucide-react';
 import { backsplashOptions } from '@/lib/kitchen-data';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
@@ -24,16 +24,18 @@ export default function BacksplashSelector({
   return (
     <div className={cn("space-y-6", className)}>
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-          <Grid3X3 className="text-blue-600 mr-2 h-5 w-5" />
+        <h3 className="text-xl font-bold text-gray-900 flex items-center">
+          <div className="p-2 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl mr-3 shadow-lg">
+            <Grid3X3 className="text-white h-5 w-5" />
+          </div>
           Backsplash Options
         </h3>
-        <Badge variant="secondary" className="text-xs">
+        <Badge variant="secondary" className="text-xs font-semibold bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full">
           {filteredBacksplash.length} patterns
         </Badge>
       </div>
       
-      <div className="grid grid-cols-1 gap-4">
+      <div className="grid grid-cols-1 gap-5">
         {filteredBacksplash.map((backsplash, index) => {
           const isSelected = selectedBacksplash === backsplash.id;
           
@@ -41,58 +43,61 @@ export default function BacksplashSelector({
             <motion.div
               key={backsplash.id}
               onClick={() => onBacksplashSelect(isSelected ? '' : backsplash.id)}
-              className={cn(
-                "modern-card overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-md",
-                isSelected 
-                  ? "border-blue-500 bg-blue-50 shadow-md ring-2 ring-blue-500 ring-offset-2" 
-                  : "hover:border-blue-300"
-              )}
-              whileHover={{ scale: 1.01, y: -2 }}
+              className="modern-card overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl bg-gradient-to-br from-white to-emerald-50/20 border-emerald-200/40 group"
+              whileHover={{ scale: 1.02, y: -4 }}
               whileTap={{ scale: 0.98 }}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ delay: index * 0.1, type: "spring", stiffness: 300, damping: 20 }}
             >
+              {/* Selection indicator */}
+              {isSelected && (
+                <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl animate-pulse -z-10"></div>
+              )}
+              
               <div 
-                className="w-full h-24 border-b border-gray-200/50 relative"
+                className="w-full h-28 border-b border-gray-200/50 relative group-hover:h-32 transition-all duration-300"
                 style={{ backgroundColor: backsplash.color }}
               >
-                {/* Pattern overlay effect */}
-                <div className="absolute inset-0 opacity-20">
+                {/* Enhanced pattern overlay effect */}
+                <div className="absolute inset-0 opacity-25 group-hover:opacity-35 transition-opacity duration-300">
                   {backsplash.pattern === 'subway' && (
-                    <div className="grid grid-cols-6 gap-px h-full">
-                      {Array.from({ length: 24 }).map((_, i) => (
-                        <div key={i} className="bg-gray-400 rounded-sm" />
+                    <div className="grid grid-cols-8 gap-1 h-full p-2">
+                      {Array.from({ length: 32 }).map((_, i) => (
+                        <div key={i} className="bg-gray-600 rounded-sm shadow-sm" />
                       ))}
                     </div>
                   )}
                   {backsplash.pattern === 'mosaic' && (
-                    <div className="grid grid-cols-8 gap-px h-full">
-                      {Array.from({ length: 32 }).map((_, i) => (
-                        <div key={i} className="bg-gray-400 rounded-full" />
+                    <div className="grid grid-cols-10 gap-1 h-full p-2">
+                      {Array.from({ length: 50 }).map((_, i) => (
+                        <div key={i} className="bg-gray-600 rounded-full shadow-sm" />
                       ))}
                     </div>
                   )}
                 </div>
+                
+                {/* Glow effect */}
+                <div className="absolute -inset-1 bg-gradient-to-r from-emerald-400 to-teal-500 blur opacity-0 group-hover:opacity-20 transition-opacity duration-300 -z-10"></div>
               </div>
-              <div className="p-4">
-                <div className="flex items-center justify-between">
-                  <div className="text-sm font-semibold text-gray-900">
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="text-lg font-bold text-gray-900 flex items-center">
                     {backsplash.name}
+                    {backsplash.id === 'glass-mosaic' && <Gem className="h-4 w-4 ml-2 text-emerald-500" />}
                   </div>
                   {isSelected && (
                     <motion.div
-                      className="bg-blue-600 rounded-full p-1"
-                      initial={{ scale: 0 }}
+                      className="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full p-2 shadow-lg"
+                      initial={{ scale: 0, rotate: -180 }}
                       animate={{ scale: 1 }}
-                      transition={{ type: "spring", damping: 15, stiffness: 300 }}
+                      transition={{ type: "spring", damping: 15, stiffness: 400 }}
                     >
-                      <Check className="h-3 w-3 text-white" />
+                      <Check className="h-4 w-4 text-white" />
                     </motion.div>
                   )}
-                  {backsplash.name}
                 </div>
-                <div className="text-xs text-gray-600 mt-1 capitalize">
+                <div className="text-sm text-gray-600 font-medium capitalize">
                   {backsplash.pattern} pattern
                 </div>
               </div>
@@ -103,21 +108,22 @@ export default function BacksplashSelector({
       
       {selectedBacksplash && (
         <motion.div
-          className="modern-card p-4 bg-green-50 border-green-200"
-          initial={{ opacity: 0, y: 10 }}
+          className="modern-card p-6 bg-gradient-to-br from-green-50 to-emerald-50/50 border-green-200/60 shadow-lg"
+          initial={{ opacity: 0, y: 20, scale: 0.95 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.4, type: "spring", stiffness: 300, damping: 20 }}
         >
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-4">
             <div 
-              className="w-6 h-6 rounded border-2 border-white shadow-sm" 
+              className="w-8 h-8 rounded-lg border-3 border-white shadow-lg" 
               style={{ backgroundColor: backsplashOptions.find(b => b.id === selectedBacksplash)?.color }}
             />
             <div>
-              <p className="text-sm font-medium text-green-900">
+              <p className="text-base font-semibold text-green-900 flex items-center">
+                <Gem className="h-4 w-4 mr-2" />
                 {backsplashOptions.find(b => b.id === selectedBacksplash)?.name} Selected
               </p>
-              <p className="text-xs text-green-700 capitalize">
+              <p className="text-sm text-green-700 font-medium capitalize">
                 {backsplashOptions.find(b => b.id === selectedBacksplash)?.pattern} pattern style
               </p>
             </div>

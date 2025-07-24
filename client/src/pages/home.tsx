@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Save, Share, Settings, Info, Expand, ArrowLeft, Search, Send, Upload, X, Menu, Download, Palette, Layers, Grid3X3, DoorClosed } from 'lucide-react';
+import { Save, Share, Settings, Info, Expand, ArrowLeft, Search, Send, Upload, X, Menu, Download, Palette, Layers, Grid3X3, DoorClosed, Sparkles, Zap, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Tooltip } from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -39,10 +39,34 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
 
   const categories = [
-    { id: 'wall-colors', name: 'Wall Colors', icon: Palette, description: 'Choose your perfect wall color' },
-    { id: 'cabinets', name: 'Cabinet Styles', icon: DoorClosed, description: 'Select cabinet finishes' },
-    { id: 'backsplash', name: 'Backsplash', icon: Grid3X3, description: 'Pick backsplash patterns' },
-    { id: 'flooring', name: 'Flooring', icon: Layers, description: 'Choose flooring materials' },
+    { 
+      id: 'wall-colors', 
+      name: 'Wall Colors', 
+      icon: Palette, 
+      description: 'Transform your space with perfect colors',
+      gradient: 'from-pink-500 to-rose-500'
+    },
+    { 
+      id: 'cabinets', 
+      name: 'Cabinet Styles', 
+      icon: DoorClosed, 
+      description: 'Premium cabinet finishes & materials',
+      gradient: 'from-amber-500 to-orange-500'
+    },
+    { 
+      id: 'backsplash', 
+      name: 'Backsplash', 
+      icon: Grid3X3, 
+      description: 'Stunning patterns & textures',
+      gradient: 'from-emerald-500 to-teal-500'
+    },
+    { 
+      id: 'flooring', 
+      name: 'Flooring', 
+      icon: Layers, 
+      description: 'Luxury flooring solutions',
+      gradient: 'from-violet-500 to-purple-500'
+    },
   ];
 
   const handleSaveDesign = () => {
@@ -50,8 +74,8 @@ export default function Home() {
     setTimeout(() => {
       setIsLoading(false);
       toast({
-        title: "Design Saved Successfully",
-        description: "Your kitchen design has been saved to your account.",
+        title: "✨ Design Saved Successfully",
+        description: "Your kitchen masterpiece has been saved to your account.",
       });
     }, 1000);
   };
@@ -61,12 +85,12 @@ export default function Home() {
     try {
       await exportDesign();
       toast({
-        title: "Design Downloaded",
+        title: "🎉 Design Downloaded",
         description: "Your kitchen design has been downloaded successfully.",
       });
     } catch (error) {
       toast({
-        title: "Export Failed",
+        title: "❌ Export Failed",
         description: "There was an error downloading your design. Please try again.",
         variant: "destructive",
       });
@@ -77,7 +101,7 @@ export default function Home() {
 
   const handleShareDesign = () => {
     toast({
-      title: "Share Link Copied",
+      title: "🔗 Share Link Copied",
       description: "Design share link has been copied to your clipboard.",
     });
   };
@@ -87,8 +111,8 @@ export default function Home() {
     setTimeout(() => {
       setIsLoading(false);
       toast({
-        title: "Inquiry Sent Successfully",
-        description: "We'll get back to you within 24 hours.",
+        title: "🚀 Inquiry Sent Successfully",
+        description: "We'll get back to you within 24 hours with a detailed quote.",
       });
       setShowInquiryDialog(false);
     }, 1000);
@@ -135,227 +159,385 @@ export default function Home() {
   };
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden bg-gradient-to-br from-slate-50 to-blue-50">
-      {/* Modern Header - only visible when not in preview mode */}
+    <div className="h-screen flex flex-col overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50">
+      {/* Modern Premium Header */}
       {!isPreviewMode && (
         <motion.header 
-          className="app-header h-16 flex items-center justify-between px-6 z-30 relative bg-white/80 backdrop-blur-md shadow border-b border-white/30"
-          style={{ background: 'linear-gradient(90deg, rgba(255,255,255,0.85) 80%, rgba(255,255,255,0.6) 100%)' }}
+          className="app-header h-20 flex items-center justify-between px-8 z-30 relative"
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
         >
-          {/* Left section - Logo and Title */}
+          {/* Left section - Enhanced Logo and Title */}
+          <div className="flex items-center space-x-6">
+            <motion.div 
+              className="flex items-center space-x-4"
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            >
+              <div className="relative">
+                <img src={TIMBER_CRAFT_LOGO} alt="Timber Craft" className="h-10 w-auto" />
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+              </div>
+              <Separator orientation="vertical" className="h-8 bg-gradient-to-b from-transparent via-gray-300 to-transparent" />
+              <div>
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+                  Kitchen Designer Pro
+                </h1>
+                <p className="text-sm text-gray-500 font-medium">Professional Kitchen Customization Studio</p>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Center section - Enhanced Action Buttons */}
+          <div className="hidden md:flex items-center space-x-3">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  onClick={toggleSidebar}
+                  variant="ghost"
+                  size="lg"
+                  className={`relative overflow-hidden transition-all duration-300 text-base font-semibold py-3 px-6 rounded-xl ${
+                    showSidebar 
+                      ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/25' 
+                      : 'hover:bg-white/80 hover:shadow-lg backdrop-blur-sm'
+                  }`}
+                >
+                  <div className="flex items-center space-x-2">
+                    <Settings className="h-5 w-5" />
+                    <span>Customize</span>
+                    {showSidebar && <Sparkles className="h-4 w-4 ml-1" />}
+                  </div>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="tooltip-content">
+                <p>Open customization panel</p>
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  onClick={toggleDesignInfo}
+                  variant="ghost"
+                  size="lg"
+                  className={`relative overflow-hidden transition-all duration-300 text-base font-semibold py-3 px-6 rounded-xl ${
+                    showDesignInfo 
+                      ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-lg shadow-emerald-500/25' 
+                      : 'hover:bg-white/80 hover:shadow-lg backdrop-blur-sm'
+                  }`}
+                >
+                  <div className="flex items-center space-x-2">
+                    <Info className="h-5 w-5" />
+                    <span>Info</span>
+                    {showDesignInfo && <Star className="h-4 w-4 ml-1" />}
+                  </div>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="tooltip-content">
+                <p>View design details</p>
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  onClick={handleSaveDesign}
+                  disabled={isLoading}
+                  variant="ghost"
+                  size="lg"
+                  className="transition-all duration-300 text-base font-semibold py-3 px-6 rounded-xl hover:bg-white/80 hover:shadow-lg backdrop-blur-sm"
+                >
+                  <div className="flex items-center space-x-2">
+                    {isLoading ? (
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-600"></div>
+                    ) : (
+                      <Save className="h-5 w-5" />
+                    )}
+                    <span>Save</span>
+                  </div>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="tooltip-content">
+                <p>Save your design</p>
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  onClick={handleShareDesign}
+                  variant="ghost"
+                  size="lg"
+                  className="transition-all duration-300 text-base font-semibold py-3 px-6 rounded-xl hover:bg-white/80 hover:shadow-lg backdrop-blur-sm"
+                >
+                  <div className="flex items-center space-x-2">
+                    <Share className="h-5 w-5" />
+                    <span>Share</span>
+                  </div>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="tooltip-content">
+                <p>Share your design</p>
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  onClick={() => window.location.reload()}
+                  variant="ghost"
+                  size="lg"
+                  className="transition-all duration-300 text-base font-semibold py-3 px-6 rounded-xl hover:bg-white/80 hover:shadow-lg backdrop-blur-sm"
+                >
+                  <div className="flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582M20 20v-5h-.581m-1.837-5A7.963 7.963 0 0012 4c-4.418 0-8 3.582-8 8m16 0c0 4.418-3.582 8-8 8a7.963 7.963 0 01-6.582-3.418" />
+                    </svg>
+                    <span>Reset</span>
+                  </div>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="tooltip-content">
+                <p>Reset to default design</p>
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  onClick={togglePreviewMode}
+                  variant="ghost"
+                  size="lg"
+                  className="transition-all duration-300 text-base font-semibold py-3 px-6 rounded-xl hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-600 hover:text-white hover:shadow-lg hover:shadow-purple-500/25 backdrop-blur-sm"
+                >
+                  <div className="flex items-center space-x-2">
+                    <Expand className="h-5 w-5" />
+                    <span>Preview</span>
+                    <Zap className="h-4 w-4 ml-1" />
+                  </div>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="tooltip-content">
+                <p>Enter fullscreen preview</p>
+              </TooltipContent>
+            </Tooltip>
+          </div>
+
+          {/* Right section - Enhanced Branding */}
           <div className="flex items-center space-x-4">
-            <img src={TIMBER_CRAFT_LOGO} alt="Timber Craft" className="h-8 w-auto" />
-            <Separator orientation="vertical" className="h-6" />
-            <div>
-              <h1 className="text-lg font-semibold text-gray-900">Kitchen Designer</h1>
-              <p className="text-xs text-gray-500">Professional Kitchen Customization</p>
-            </div>
-          </div>
-
-          {/* Center section - Quick actions (all main buttons in a row, ghost style) */}
-          <div className="hidden md:flex items-center space-x-2">
-            <Button
-              onClick={toggleSidebar}
-              variant="ghost"
-              size="sm"
-              className={`transition-all duration-200 text-lg font-semibold py-2 px-4 ${showSidebar ? 'bg-blue-100 text-blue-700' : ''}`}
+            <Separator orientation="vertical" className="h-8 bg-gradient-to-b from-transparent via-gray-300 to-transparent" />
+            <motion.div 
+              className="flex items-center space-x-3"
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
-              <Settings className="h-6 w-6 mr-2 align-middle" />
-              <span className="align-middle">Customize</span>
-            </Button>
-            <Button
-              onClick={toggleDesignInfo}
-              variant="ghost"
-              size="sm"
-              className={`transition-all duration-200 text-lg font-semibold py-2 px-4 ${showDesignInfo ? 'bg-blue-100 text-blue-700' : ''}`}
-            >
-              <Info className="h-6 w-6 mr-2 align-middle" />
-              <span className="align-middle">Info</span>
-            </Button>
-            <Button
-              onClick={handleSaveDesign}
-              disabled={isLoading}
-              variant="ghost"
-              size="sm"
-              className="transition-all duration-200 text-lg font-semibold py-2 px-4"
-              aria-label="Save Design"
-            >
-              {isLoading ? (
-                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-600 mr-2"></div>
-              ) : (
-                <Save className="h-6 w-6 mr-2 align-middle" />
-              )}
-              <span className="align-middle">Save</span>
-            </Button>
-            <Button
-              onClick={handleShareDesign}
-              variant="ghost"
-              size="sm"
-              className="transition-all duration-200 text-lg font-semibold py-2 px-4"
-              aria-label="Share Design"
-            >
-              <Share className="h-6 w-6 mr-2 align-middle" />
-              <span className="align-middle">Share</span>
-            </Button>
-            <Button
-              onClick={() => window.location.reload()}
-              variant="ghost"
-              size="sm"
-              className="transition-all duration-200 text-lg font-semibold py-2 px-4"
-              aria-label="Reset Design"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582M20 20v-5h-.581m-1.837-5A7.963 7.963 0 0012 4c-4.418 0-8 3.582-8 8m16 0c0 4.418-3.582 8-8 8a7.963 7.963 0 01-6.582-3.418" /></svg>
-              <span className="align-middle">Reset</span>
-            </Button>
-            <Button
-              onClick={togglePreviewMode}
-              variant="ghost"
-              size="sm"
-              className="transition-all duration-200 text-lg font-semibold py-2 px-4"
-            >
-              <Expand className="h-6 w-6 mr-2 align-middle" />
-              <span className="align-middle">Preview</span>
-            </Button>
-          </div>
-
-          {/* Right section - Branding only */}
-          <div className="flex items-center space-x-3">
-            <Separator orientation="vertical" className="h-6" />
-            <div className="flex items-center space-x-2">
-              <span className="text-xs font-semibold text-gray-400">Powered by</span>
-              <img src={BIOREV_LOGO} alt="Biorev Technology" className="h-6 w-auto opacity-70 align-middle ml-1" />
-            </div>
+              <div className="text-right">
+                <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Powered by</span>
+              </div>
+              <div className="relative">
+                <img src={BIOREV_LOGO} alt="Biorev Technology" className="h-8 w-auto opacity-80" />
+                <div className="absolute -inset-1 bg-gradient-to-r from-green-600 to-blue-600 rounded-lg blur opacity-10 group-hover:opacity-30 transition duration-1000"></div>
+              </div>
+            </motion.div>
           </div>
         </motion.header>
       )}
 
       {/* Main Content Area */}
       <div className="flex-1 flex overflow-hidden relative">
-        {/* PREVIEW MODE: Only show kitchen image and Exit Preview button */}
+        {/* PREVIEW MODE: Enhanced fullscreen experience */}
         {isPreviewMode ? (
           <div className="w-full h-full relative bg-black">
-            <img
+            <motion.img
               src={getKitchenImage()}
               alt="Kitchen Design Preview"
               className="w-full h-full object-cover"
-              style={{ background: 'black' }}
+              initial={{ scale: 1.1, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
             />
-            {/* Exit Preview Button - fixed top left, ghost style */}
-            <div className="absolute top-6 left-6 z-50">
-              <Tooltip>
-                <Button
-                  onClick={togglePreviewMode}
-                  variant="ghost"
-                  size="sm"
-                  className="transition-all duration-200 text-red-600 bg-white/80 hover:bg-white"
-                  aria-label="Exit Preview"
-                >
-                  <X className="h-4 w-4 mr-2" />
-                  Exit Preview
-                </Button>
-                <span className="sr-only">Exit Preview (Esc)</span>
-              </Tooltip>
-            </div>
+            
+            {/* Enhanced wall color overlay for preview */}
+            <motion.div
+              className="absolute inset-0"
+              style={{ 
+                backgroundColor: customization.wallColor,
+                mixBlendMode: customization.wallColor === '#ffffff' ? 'normal' : 'soft-light'
+              }}
+              animate={{ 
+                opacity: customization.wallColor === '#ffffff' ? 0 : 0.3
+              }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+            />
+            
+            {/* Enhanced Exit Preview Button */}
+            <motion.div 
+              className="absolute top-8 left-8 z-50"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3, duration: 0.4 }}
+            >
+              <Button
+                onClick={togglePreviewMode}
+                size="lg"
+                className="bg-white/90 hover:bg-white text-gray-900 font-semibold px-6 py-3 rounded-xl shadow-2xl hover:shadow-3xl transition-all duration-300 backdrop-blur-xl border border-white/60 transform hover:scale-105"
+              >
+                <X className="h-5 w-5 mr-2" />
+                Exit Preview
+                <span className="ml-2 text-xs opacity-60">(Esc)</span>
+              </Button>
+            </motion.div>
+
+            {/* Preview Mode Info Panel */}
+            <motion.div
+              className="absolute bottom-8 right-8 z-50"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.4 }}
+            >
+              <div className="bg-white/90 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border border-white/60 max-w-sm">
+                <h3 className="font-bold text-gray-900 mb-2">Preview Mode</h3>
+                <p className="text-sm text-gray-600 mb-4">Experience your kitchen design in full immersion</p>
+                <div className="flex space-x-2">
+                  <Button
+                    onClick={handleExportDesign}
+                    size="sm"
+                    className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                  >
+                    <Download className="h-4 w-4 mr-2" />
+                    Download
+                  </Button>
+                  <Button
+                    onClick={handleShareDesign}
+                    size="sm"
+                    variant="outline"
+                    className="bg-white/80 hover:bg-white border-gray-200 font-semibold rounded-lg shadow-sm hover:shadow-lg transition-all duration-300"
+                  >
+                    <Share className="h-4 w-4 mr-2" />
+                    Share
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
           </div>
         ) : (
           <>
-            {/* Kitchen Preview - Main Content */}
-            <div className={`flex-1 relative overflow-hidden transition-all duration-300 ${showSidebar ? 'mr-96' : ''}`}> 
+            {/* Enhanced Kitchen Preview - Main Content */}
+            <div className={`flex-1 relative overflow-hidden transition-all duration-500 ${showSidebar ? 'mr-[480px]' : ''}`}> 
               <motion.div
                 className="kitchen-preview-container w-full h-full"
-                style={{ borderRadius: 0 }}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
               >
                 <img
                   src={getKitchenImage()}
                   alt="Kitchen Design Preview"
                   className="w-full h-full object-cover"
-                  style={{ borderRadius: 0 }}
                 />
                 {/* Enhanced wall color overlay */}
                 <motion.div
                   className="wall-color-overlay"
-                  style={{ backgroundColor: customization.wallColor, borderRadius: 0 }}
+                  style={{ backgroundColor: customization.wallColor }}
                   animate={{ 
-                    opacity: customization.wallColor === '#ffffff' ? 0 : 0.25,
-                    mixBlendMode: customization.wallColor === '#ffffff' ? 'normal' : 'multiply'
+                    opacity: customization.wallColor === '#ffffff' ? 0 : 0.35,
+                    mixBlendMode: customization.wallColor === '#ffffff' ? 'normal' : 'soft-light'
                   }}
-                  transition={{ duration: 0.4, ease: "easeInOut" }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
                 />
               </motion.div>
-              {/* Mobile Control Button */}
-              <div className="md:hidden absolute top-4 left-4 z-20">
+
+              {/* Mobile Control Button - Enhanced */}
+              <div className="md:hidden absolute top-6 left-6 z-20">
                 <Button
                   onClick={toggleSidebar}
-                  className="floating-action"
-                  size="sm"
+                  size="lg"
+                  className="floating-action bg-white/95 hover:bg-white text-gray-900 font-semibold px-4 py-3 rounded-2xl shadow-2xl hover:shadow-3xl border border-white/60"
                 >
-                  <Menu className="h-4 w-4" />
+                  <Menu className="h-5 w-5 mr-2" />
+                  Customize
                 </Button>
               </div>
+
               {/* Enhanced Design Info Card */}
               <AnimatePresence>
                 {showDesignInfo && (
                   <motion.div
-                    initial={{ y: -20, opacity: 0, scale: 0.95 }}
+                    initial={{ y: -30, opacity: 0, scale: 0.9 }}
                     animate={{ y: 0, opacity: 1, scale: 1 }}
-                    exit={{ y: -20, opacity: 0, scale: 0.95 }}
+                    exit={{ y: -30, opacity: 0, scale: 0.9 }}
                     transition={{ type: "spring", damping: 20, stiffness: 300 }}
-                    className="absolute top-4 left-4 z-10"
+                    className="absolute top-6 left-6 z-10"
                   >
-                    <Card className="w-80 modern-card-elevated">
-                      <CardContent className="p-6">
-                        <div className="flex items-center justify-between mb-4">
+                    <Card className="w-96 modern-card-elevated bg-white/95 backdrop-blur-xl border border-white/60">
+                      <CardContent className="p-8">
+                        <div className="flex items-center justify-between mb-6">
                           <div>
-                            <h3 className="font-semibold text-gray-900 text-lg">Current Design</h3>
-                            <p className="text-sm text-gray-500">Timber Craft Kitchen</p>
+                            <h3 className="font-bold text-gray-900 text-xl mb-1">Current Design</h3>
+                            <p className="text-sm text-gray-500 font-medium">Timber Craft Kitchen Studio</p>
                           </div>
                           <Button
                             variant="ghost"
                             size="sm"
                             onClick={toggleDesignInfo}
-                            className="text-gray-400 hover:text-gray-600 h-8 w-8 p-0"
+                            className="text-gray-400 hover:text-gray-600 h-10 w-10 p-0 rounded-xl hover:bg-gray-100/80 transition-all duration-200"
                           >
-                            <X className="h-4 w-4" />
+                            <X className="h-5 w-5" />
                           </Button>
                         </div>
-                        <div className="space-y-3">
-                          <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                            <div className="flex items-center space-x-3">
+                        
+                        <div className="space-y-4">
+                          <motion.div 
+                            className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-50/80 to-gray-100/60 rounded-xl border border-gray-200/60"
+                            whileHover={{ scale: 1.02 }}
+                            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                          >
+                            <div className="flex items-center space-x-4">
                               <div 
-                                className="w-4 h-4 rounded-full border-2 border-white shadow-sm" 
+                                className="w-6 h-6 rounded-full border-2 border-white shadow-lg" 
                                 style={{ backgroundColor: customization.wallColor }}
                               />
-                              <span className="text-sm font-medium text-gray-700">Wall Color</span>
+                              <span className="text-sm font-semibold text-gray-700">Wall Color</span>
                             </div>
-                            <Badge variant="secondary" className="text-xs">Custom</Badge>
-                          </div>
-                          <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                            <div className="flex items-center space-x-3">
-                              <div className="w-4 h-4 rounded border-2 border-white shadow-sm bg-amber-200" />
-                              <span className="text-sm font-medium text-gray-700">Natural Wood Cabinets</span>
+                            <Badge variant="secondary" className="text-xs font-semibold bg-blue-100 text-blue-700">Custom</Badge>
+                          </motion.div>
+                          
+                          <motion.div 
+                            className="flex items-center justify-between p-4 bg-gradient-to-r from-amber-50/80 to-orange-100/60 rounded-xl border border-amber-200/60"
+                            whileHover={{ scale: 1.02 }}
+                            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                          >
+                            <div className="flex items-center space-x-4">
+                              <div className="w-6 h-6 rounded border-2 border-white shadow-lg bg-amber-200" />
+                              <span className="text-sm font-semibold text-gray-700">Natural Wood Cabinets</span>
                             </div>
-                            <Badge variant="secondary" className="text-xs">Premium</Badge>
-                          </div>
-                          <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                            <div className="flex items-center space-x-3">
-                              <div className="w-4 h-4 rounded border-2 border-white shadow-sm bg-white" />
-                              <span className="text-sm font-medium text-gray-700">Subway Backsplash</span>
+                            <Badge variant="secondary" className="text-xs font-semibold bg-amber-100 text-amber-700">Premium</Badge>
+                          </motion.div>
+                          
+                          <motion.div 
+                            className="flex items-center justify-between p-4 bg-gradient-to-r from-emerald-50/80 to-teal-100/60 rounded-xl border border-emerald-200/60"
+                            whileHover={{ scale: 1.02 }}
+                            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                          >
+                            <div className="flex items-center space-x-4">
+                              <div className="w-6 h-6 rounded border-2 border-white shadow-lg bg-white" />
+                              <span className="text-sm font-semibold text-gray-700">Subway Backsplash</span>
                             </div>
-                            <Badge variant="secondary" className="text-xs">Classic</Badge>
-                          </div>
-                          <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                            <div className="flex items-center space-x-3">
-                              <div className="w-4 h-4 rounded border-2 border-white shadow-sm bg-amber-100" />
-                              <span className="text-sm font-medium text-gray-700">Light Oak Flooring</span>
+                            <Badge variant="secondary" className="text-xs font-semibold bg-emerald-100 text-emerald-700">Classic</Badge>
+                          </motion.div>
+                          
+                          <motion.div 
+                            className="flex items-center justify-between p-4 bg-gradient-to-r from-violet-50/80 to-purple-100/60 rounded-xl border border-violet-200/60"
+                            whileHover={{ scale: 1.02 }}
+                            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                          >
+                            <div className="flex items-center space-x-4">
+                              <div className="w-6 h-6 rounded border-2 border-white shadow-lg bg-amber-100" />
+                              <span className="text-sm font-semibold text-gray-700">Light Oak Flooring</span>
                             </div>
-                            <Badge variant="secondary" className="text-xs">Natural</Badge>
-                          </div>
+                            <Badge variant="secondary" className="text-xs font-semibold bg-violet-100 text-violet-700">Natural</Badge>
+                          </motion.div>
                         </div>
                       </CardContent>
                     </Card>
@@ -363,183 +545,144 @@ export default function Home() {
                 )}
               </AnimatePresence>
             </div>
-            {/* Enhanced Right Sidebar */}
+
+            {/* Enhanced Premium Right Sidebar */}
             <AnimatePresence>
               {showSidebar && (
                 <motion.div
-                  initial={{ x: 400, opacity: 0 }}
+                  initial={{ x: 480, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
-                  exit={{ x: 400, opacity: 0 }}
+                  exit={{ x: 480, opacity: 0 }}
                   transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                  className="fixed right-0 top-16 bottom-0 w-[420px] z-20 overflow-hidden flex flex-col bg-gradient-to-b from-white via-gray-50/50 to-white backdrop-blur-xl border-l border-gray-200/30 shadow-2xl"
+                  className="fixed right-0 top-20 bottom-0 w-[480px] z-20 overflow-hidden flex flex-col sidebar-panel"
                 >
-                  {/* Premium Header with Gradient */}
-                  <div className="relative p-8 bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 text-white">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-600/90 to-indigo-800/90 backdrop-blur-sm"></div>
+                  {/* Premium Header with Enhanced Gradient */}
+                  <div className="relative p-8 bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white overflow-hidden">
+                    {/* Animated background elements */}
+                    <div className="absolute inset-0">
+                      <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-blue-400/20 to-transparent rounded-full -translate-y-20 translate-x-20 animate-pulse-slow"></div>
+                      <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-indigo-400/20 to-transparent rounded-full translate-y-16 -translate-x-16 animate-float"></div>
+                    </div>
+                    
                     <div className="relative z-10">
-                      <div className="flex items-center justify-between mb-3">
-                        <h2 className="text-2xl font-bold tracking-tight">
+                      <div className="flex items-center justify-between mb-4">
+                        <h2 className="text-3xl font-bold tracking-tight">
                           {currentCategory ? (
                             <div className="flex items-center">
                               <Button
                                 variant="ghost"
                                 size="sm"
                                 onClick={handleBackToCategories}
-                                className="mr-3 p-2 hover:bg-white/20 text-white border border-white/20 rounded-lg transition-all duration-200"
+                                className="mr-4 p-3 hover:bg-white/20 text-white border border-white/30 rounded-xl transition-all duration-300 hover:scale-105"
                               >
-                                <ArrowLeft className="h-4 w-4" />
+                                <ArrowLeft className="h-5 w-5" />
                               </Button>
-                              {categories.find(c => c.id === currentCategory)?.name}
+                              <span className="bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
+                                {categories.find(c => c.id === currentCategory)?.name}
+                              </span>
                             </div>
                           ) : (
-                            'Design Studio'
+                            <span className="bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
+                              Design Studio Pro
+                            </span>
                           )}
                         </h2>
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => setShowSidebar(false)}
-                          className="text-white/80 hover:text-white hover:bg-white/20 h-10 w-10 p-0 rounded-lg border border-white/20 transition-all duration-200"
+                          className="text-white/80 hover:text-white hover:bg-white/20 h-12 w-12 p-0 rounded-xl border border-white/30 transition-all duration-300 hover:scale-105"
                         >
-                          <X className="h-5 w-5" />
+                          <X className="h-6 w-6" />
                         </Button>
                       </div>
                       {currentCategory ? (
-                        <p className="text-blue-100 text-sm font-medium">
+                        <p className="text-blue-100 text-base font-medium">
                           {categories.find(c => c.id === currentCategory)?.description}
                         </p>
                       ) : (
-                        <p className="text-blue-100 text-sm font-medium">
-                          Craft your perfect kitchen design
+                        <p className="text-blue-100 text-base font-medium">
+                          Craft your perfect kitchen design with professional tools
                         </p>
                       )}
                     </div>
-                    {/* Decorative Elements */}
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/10 to-transparent rounded-full -translate-y-16 translate-x-16"></div>
-                    <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-white/5 to-transparent rounded-full translate-y-12 -translate-x-12"></div>
                   </div>
 
                   {/* Enhanced Search Bar */}
                   {currentCategory && (
-                    <div className="p-6 bg-white/80 backdrop-blur-sm border-b border-gray-100">
+                    <div className="p-6 bg-white/90 backdrop-blur-sm border-b border-gray-100/60">
                       <div className="relative group">
-                        <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5 group-focus-within:text-blue-600 transition-colors duration-200" />
+                        <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5 group-focus-within:text-blue-600 transition-colors duration-300" />
                         <Input
                           placeholder="Search options..."
                           value={searchTerm}
                           onChange={(e) => setSearchTerm(e.target.value)}
-                          className="pl-12 h-12 bg-white/90 border-gray-200/60 rounded-xl text-gray-700 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200 shadow-sm"
+                          className="pl-12 h-14 bg-white/95 border-gray-200/60 rounded-2xl text-gray-700 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300 shadow-sm focus:shadow-lg text-base font-medium"
                         />
                       </div>
                     </div>
                   )}
 
                   {/* Premium Content Area */}
-                  <div className="flex-1 overflow-y-auto bg-gradient-to-b from-white to-gray-50/30">
+                  <div className="flex-1 overflow-y-auto bg-gradient-to-b from-white/95 to-gray-50/80">
                     {!currentCategory ? (
-                      <div className="p-6 space-y-4">
-                        {currentCategory ? (
-                          categories.map((category, index) => {
-                            const IconComponent = category.icon;
-                            return (
-                              <motion.div
-                                key={category.id}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: index * 0.1, duration: 0.4 }}
-                                whileHover={{ scale: 1.02, y: -2 }}
-                                whileTap={{ scale: 0.98 }}
+                      <div className="p-6 space-y-6">
+                        {categories.map((category, index) => {
+                          const IconComponent = category.icon;
+                          return (
+                            <motion.div
+                              key={category.id}
+                              initial={{ opacity: 0, y: 30 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: index * 0.1, duration: 0.5, ease: "easeOut" }}
+                              whileHover={{ scale: 1.02, y: -4 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              <div
+                                onClick={() => handleCategorySelect(category.id)}
+                                className="group relative overflow-hidden bg-gradient-to-br from-white/95 to-white/80 hover:from-white hover:to-gray-50/90 border border-white/80 hover:border-gray-200/60 rounded-3xl p-8 cursor-pointer transition-all duration-500 shadow-lg hover:shadow-2xl backdrop-blur-sm"
                               >
-                                <div
-                                  onClick={() => handleCategorySelect(category.id)}
-                                  className="group relative overflow-hidden bg-gradient-to-br from-white to-gray-50/50 hover:from-blue-50 hover:to-indigo-50/50 border border-gray-200/60 hover:border-blue-300/60 rounded-2xl p-6 cursor-pointer transition-all duration-300 shadow-sm hover:shadow-lg"
-                                >
-                                  {/* Background Pattern */}
-                                  <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                  
-                                  <div className="relative z-10 flex items-center space-x-5">
-                                    <div className="relative">
-                                      <div className="p-4 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
-                                        <IconComponent className="h-7 w-7 text-white" />
-                                      </div>
-                                      {/* Glow Effect */}
-                                      <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-xl blur-lg opacity-0 group-hover:opacity-30 transition-opacity duration-300 -z-10"></div>
+                                {/* Enhanced background pattern */}
+                                <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500 rounded-3xl`}></div>
+                                
+                                <div className="relative z-10 flex items-center space-x-6">
+                                  <div className="relative">
+                                    <div className={`p-5 bg-gradient-to-br ${category.gradient} rounded-2xl shadow-xl group-hover:shadow-2xl transition-all duration-500 group-hover:scale-110`}>
+                                      <IconComponent className="h-8 w-8 text-white" />
                                     </div>
-                                    <div className="flex-1">
-                                      <h3 className="font-bold text-gray-900 group-hover:text-blue-700 transition-colors duration-300 text-lg">
-                                        {category.name}
-                                      </h3>
-                                      <p className="text-gray-600 group-hover:text-blue-600 transition-colors duration-300 text-sm mt-1 font-medium">
-                                        {category.description}
-                                      </p>
-                                    </div>
-                                    <div className="flex items-center">
-                                      <div className="p-2 bg-gray-100 group-hover:bg-blue-100 rounded-lg transition-all duration-300">
-                                        <ArrowLeft className="h-4 w-4 text-gray-400 group-hover:text-blue-600 rotate-180 transition-all duration-300 group-hover:translate-x-1" />
-                                      </div>
+                                    {/* Enhanced glow effect */}
+                                    <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient} rounded-2xl blur-xl opacity-0 group-hover:opacity-40 transition-opacity duration-500 -z-10`}></div>
+                                  </div>
+                                  <div className="flex-1">
+                                    <h3 className="font-bold text-gray-900 group-hover:text-gray-800 transition-colors duration-300 text-xl mb-2">
+                                      {category.name}
+                                    </h3>
+                                    <p className="text-gray-600 group-hover:text-gray-700 transition-colors duration-300 text-sm font-medium leading-relaxed">
+                                      {category.description}
+                                    </p>
+                                  </div>
+                                  <div className="flex items-center">
+                                    <div className="p-3 bg-gray-100/80 group-hover:bg-gray-200/80 rounded-xl transition-all duration-300 group-hover:scale-110">
+                                      <ArrowLeft className="h-5 w-5 text-gray-400 group-hover:text-gray-600 rotate-180 transition-all duration-300 group-hover:translate-x-1" />
                                     </div>
                                   </div>
                                 </div>
-                              </motion.div>
-                            );
-                          })
-                        ) : (
-                          categories.map((category, index) => {
-                            const IconComponent = category.icon;
-                            return (
-                              <motion.div
-                                key={category.id}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: index * 0.1, duration: 0.4 }}
-                                whileHover={{ scale: 1.02, y: -2 }}
-                                whileTap={{ scale: 0.98 }}
-                              >
-                                <div
-                                  onClick={() => handleCategorySelect(category.id)}
-                                  className="group relative overflow-hidden bg-gradient-to-br from-white to-gray-50/50 hover:from-blue-50 hover:to-indigo-50/50 border border-gray-200/60 hover:border-blue-300/60 rounded-2xl p-6 cursor-pointer transition-all duration-300 shadow-sm hover:shadow-lg"
-                                >
-                                  {/* Background Pattern */}
-                                  <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                  
-                                  <div className="relative z-10 flex items-center space-x-5">
-                                    <div className="relative">
-                                      <div className="p-4 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
-                                        <IconComponent className="h-7 w-7 text-white" />
-                                      </div>
-                                      {/* Glow Effect */}
-                                      <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-xl blur-lg opacity-0 group-hover:opacity-30 transition-opacity duration-300 -z-10"></div>
-                                    </div>
-                                    <div className="flex-1">
-                                      <h3 className="font-bold text-gray-900 group-hover:text-blue-700 transition-colors duration-300 text-lg">
-                                        {category.name}
-                                      </h3>
-                                      <p className="text-gray-600 group-hover:text-blue-600 transition-colors duration-300 text-sm mt-1 font-medium">
-                                        {category.description}
-                                      </p>
-                                    </div>
-                                    <div className="flex items-center">
-                                      <div className="p-2 bg-gray-100 group-hover:bg-blue-100 rounded-lg transition-all duration-300">
-                                        <ArrowLeft className="h-4 w-4 text-gray-400 group-hover:text-blue-600 rotate-180 transition-all duration-300 group-hover:translate-x-1" />
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </motion.div>
-                            );
-                          })
-                        )}
+                              </div>
+                            </motion.div>
+                          );
+                        })}
                       </div>
                     ) : (
                       <div className="p-6">
                         <motion.div
-                          initial={{ opacity: 0, y: 20 }}
+                          initial={{ opacity: 0, y: 30 }}
                           animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.4 }}
+                          transition={{ duration: 0.5, ease: "easeOut" }}
                           className="space-y-8"
                         >
                           {currentCategory === 'wall-colors' && (
-                            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 shadow-lg">
+                            <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 border border-white/80 shadow-xl">
                               <ColorPicker
                                 color={customization.wallColor}
                                 onColorChange={updateWallColor}
@@ -549,7 +692,7 @@ export default function Home() {
                             </div>
                           )}
                           {currentCategory === 'cabinets' && (
-                            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 shadow-lg">
+                            <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 border border-white/80 shadow-xl">
                               <CabinetSelector
                                 selectedCabinet={customization.cabinet}
                                 onCabinetSelect={updateCabinet}
@@ -559,7 +702,7 @@ export default function Home() {
                             </div>
                           )}
                           {currentCategory === 'backsplash' && (
-                            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 shadow-lg">
+                            <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 border border-white/80 shadow-xl">
                               <BacksplashSelector
                                 selectedBacksplash={customization.backsplash}
                                 onBacksplashSelect={updateBacksplash}
@@ -569,7 +712,7 @@ export default function Home() {
                             </div>
                           )}
                           {currentCategory === 'flooring' && (
-                            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 shadow-lg">
+                            <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 border border-white/80 shadow-xl">
                               <FlooringSelector
                                 selectedFlooring={customization.flooring}
                                 onFlooringSelect={updateFlooring}
@@ -583,86 +726,90 @@ export default function Home() {
                     )}
                   </div>
 
-                  {/* Premium Footer */}
-                  <div className="relative p-6 bg-gradient-to-r from-gray-50 to-white border-t border-gray-200/30">
+                  {/* Enhanced Premium Footer */}
+                  <div className="relative p-8 bg-gradient-to-r from-gray-50/95 to-white/95 border-t border-gray-200/40 backdrop-blur-sm">
                     <div className="space-y-4">
                       <Button
                         onClick={handleExportDesign}
                         disabled={isLoading}
-                        className="w-full h-12 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
+                        className="w-full h-14 bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 hover:from-blue-700 hover:via-blue-800 hover:to-indigo-800 text-white font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-400 transform hover:scale-[1.02] text-base"
                       >
                         {isLoading ? (
                           <div className="flex items-center justify-center">
-                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
                             <span>Processing...</span>
                           </div>
                         ) : (
                           <div className="flex items-center justify-center">
-                            <Download className="mr-2 h-4 w-4" />
+                            <Download className="mr-3 h-5 w-5" />
                             <span>Download Design</span>
+                            <Sparkles className="ml-2 h-4 w-4" />
                           </div>
                         )}
                       </Button>
                       
                       <Dialog open={showInquiryDialog} onOpenChange={setShowInquiryDialog}>
                         <DialogTrigger asChild>
-                          <Button className="w-full h-12 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]">
+                          <Button className="w-full h-14 bg-gradient-to-r from-emerald-500 via-green-600 to-teal-600 hover:from-emerald-600 hover:via-green-700 hover:to-teal-700 text-white font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-400 transform hover:scale-[1.02] text-base">
                             <div className="flex items-center justify-center">
-                              <Send className="mr-2 h-4 w-4" />
+                              <Send className="mr-3 h-5 w-5" />
                               <span>Send Inquiry</span>
+                              <Star className="ml-2 h-4 w-4" />
                             </div>
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="modal-content sm:max-w-md">
-                          <DialogHeader>
-                            <DialogTitle className="text-xl font-semibold">Send Design Inquiry</DialogTitle>
-                            <p className="text-sm text-gray-500 mt-2">Get a quote for your custom kitchen design</p>
+                        <DialogContent className="modal-content sm:max-w-lg bg-white/95 backdrop-blur-xl border border-white/60 rounded-3xl shadow-2xl">
+                          <DialogHeader className="pb-6">
+                            <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+                              Send Design Inquiry
+                            </DialogTitle>
+                            <p className="text-base text-gray-600 mt-3 font-medium">Get a personalized quote for your custom kitchen design</p>
                           </DialogHeader>
-                          <div className="space-y-4 py-4">
-                            <div className="space-y-2">
-                              <Label htmlFor="name" className="text-sm font-medium">Your Name</Label>
-                              <Input id="name" placeholder="Enter your full name" className="focus-ring" />
+                          <div className="space-y-6 py-4">
+                            <div className="space-y-3">
+                              <Label htmlFor="name" className="text-sm font-semibold text-gray-700">Your Name</Label>
+                              <Input id="name" placeholder="Enter your full name" className="focus-ring-modern h-12 rounded-xl bg-white/90 border-gray-200/60 text-base" />
                             </div>
-                            <div className="space-y-2">
-                              <Label htmlFor="email" className="text-sm font-medium">Email Address</Label>
-                              <Input id="email" type="email" placeholder="your.email@example.com" className="focus-ring" />
+                            <div className="space-y-3">
+                              <Label htmlFor="email" className="text-sm font-semibold text-gray-700">Email Address</Label>
+                              <Input id="email" type="email" placeholder="your.email@example.com" className="focus-ring-modern h-12 rounded-xl bg-white/90 border-gray-200/60 text-base" />
                             </div>
-                            <div className="space-y-2">
-                              <Label htmlFor="phone" className="text-sm font-medium">Phone Number (Optional)</Label>
-                              <Input id="phone" type="tel" placeholder="+1 (555) 123-4567" className="focus-ring" />
+                            <div className="space-y-3">
+                              <Label htmlFor="phone" className="text-sm font-semibold text-gray-700">Phone Number (Optional)</Label>
+                              <Input id="phone" type="tel" placeholder="+1 (555) 123-4567" className="focus-ring-modern h-12 rounded-xl bg-white/90 border-gray-200/60 text-base" />
                             </div>
-                            <div className="space-y-2">
-                              <Label htmlFor="message" className="text-sm font-medium">Project Details</Label>
+                            <div className="space-y-3">
+                              <Label htmlFor="message" className="text-sm font-semibold text-gray-700">Project Details</Label>
                               <Textarea 
                                 id="message" 
                                 placeholder="Tell us about your kitchen project, timeline, and any specific requirements..." 
                                 rows={4} 
-                                className="focus-ring resize-none"
+                                className="focus-ring-modern resize-none rounded-xl bg-white/90 border-gray-200/60 text-base"
                               />
                             </div>
-                            <div className="space-y-2">
-                              <Label htmlFor="file" className="text-sm font-medium">Attach Files (Optional)</Label>
+                            <div className="space-y-3">
+                              <Label htmlFor="file" className="text-sm font-semibold text-gray-700">Attach Files (Optional)</Label>
                               <div className="mt-2">
-                                <Button variant="outline" className="w-full hover:bg-gray-50 transition-colors duration-200">
-                                  <Upload className="mr-2 h-4 w-4" />
+                                <Button variant="outline" className="w-full h-12 hover:bg-gray-50 transition-colors duration-300 rounded-xl border-gray-200/60 font-semibold">
+                                  <Upload className="mr-3 h-5 w-5" />
                                   Choose Files
                                 </Button>
-                                <p className="text-xs text-gray-500 mt-1">Upload floor plans, inspiration images, or other relevant files</p>
+                                <p className="text-xs text-gray-500 mt-2 font-medium">Upload floor plans, inspiration images, or other relevant files</p>
                               </div>
                             </div>
                           </div>
-                          <div className="flex space-x-3 pt-4">
+                          <div className="flex space-x-4 pt-6">
                             <Button 
                               variant="outline" 
                               onClick={() => setShowInquiryDialog(false)} 
-                              className="flex-1 h-11 hover:bg-gray-50 transition-colors duration-200 rounded-lg"
+                              className="flex-1 h-12 hover:bg-gray-50 transition-colors duration-300 rounded-xl border-gray-200/60 font-semibold text-base"
                             >
                               Cancel
                             </Button>
                             <Button 
                               onClick={handleInquirySubmit} 
                               disabled={isLoading}
-                              className="flex-1 h-11 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 transition-all duration-200 rounded-lg"
+                              className="flex-1 h-12 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 transition-all duration-300 rounded-xl font-bold text-base shadow-lg hover:shadow-xl transform hover:scale-105"
                             >
                               {isLoading ? (
                                 <div className="flex items-center">
@@ -670,7 +817,10 @@ export default function Home() {
                                   Sending...
                                 </div>
                               ) : (
-                                'Send Inquiry'
+                                <div className="flex items-center">
+                                  <Send className="mr-2 h-4 w-4" />
+                                  Send Inquiry
+                                </div>
                               )}
                             </Button>
                           </div>
@@ -684,7 +834,6 @@ export default function Home() {
           </>
         )}
       </div>
-      {/* Removed Floating Action Buttons from bottom right, Save & Share are now in header */}
     </div>
   );
 }
