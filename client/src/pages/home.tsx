@@ -163,50 +163,55 @@ export default function Home() {
       {/* Modern Premium Header */}
       {!isPreviewMode && (
         <motion.header 
-          className="app-header h-20 flex items-center justify-between px-8 z-30 relative"
+          className="app-header h-24 flex items-center justify-between px-8 z-30 relative"
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
         >
+          {/* Animated background elements */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-blue-500/10 to-transparent rounded-full -translate-y-48 translate-x-48 animate-pulse-slow"></div>
+            <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-indigo-500/10 to-transparent rounded-full translate-y-40 -translate-x-40 animate-float"></div>
+          </div>
+          
           {/* Left section - Enhanced Logo and Title */}
-          <div className="flex items-center space-x-6">
+          <div className="flex items-center space-x-6 relative z-10">
             <motion.div 
               className="flex items-center space-x-4"
               whileHover={{ scale: 1.02 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
               <div className="relative">
-                <img src={TIMBER_CRAFT_LOGO} alt="Timber Craft" className="h-10 w-auto" />
-                <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+                <img src={TIMBER_CRAFT_LOGO} alt="Timber Craft" className="h-12 w-auto filter brightness-0 invert" />
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-lg blur opacity-30 group-hover:opacity-50 transition duration-1000"></div>
               </div>
-              <Separator orientation="vertical" className="h-8 bg-gradient-to-b from-transparent via-gray-300 to-transparent" />
+              <Separator orientation="vertical" className="h-10 bg-gradient-to-b from-transparent via-white/30 to-transparent" />
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
                   Kitchen Designer Pro
                 </h1>
-                <p className="text-sm text-gray-500 font-medium">Professional Kitchen Customization Studio</p>
+                <p className="text-sm text-blue-100/80 font-medium">Professional Kitchen Customization Studio</p>
               </div>
             </motion.div>
           </div>
 
           {/* Center section - Enhanced Action Buttons */}
-          <div className="hidden md:flex items-center space-x-3">
+          <div className="hidden md:flex items-center space-x-4 relative z-10">
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
                   onClick={toggleSidebar}
-                  variant="ghost"
                   size="lg"
-                  className={`relative overflow-hidden transition-all duration-300 text-base font-semibold py-3 px-6 rounded-xl ${
+                  className={`header-button text-base font-semibold ${
                     showSidebar 
-                      ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/25' 
-                      : 'hover:bg-white/80 hover:shadow-lg backdrop-blur-sm'
+                      ? 'active' 
+                      : ''
                   }`}
                 >
                   <div className="flex items-center space-x-2">
                     <Settings className="h-5 w-5" />
                     <span>Customize</span>
-                    {showSidebar && <Sparkles className="h-4 w-4 ml-1" />}
+                    {showSidebar && <Sparkles className="h-4 w-4 ml-1 animate-pulse" />}
                   </div>
                 </Button>
               </TooltipTrigger>
@@ -219,18 +224,17 @@ export default function Home() {
               <TooltipTrigger asChild>
                 <Button
                   onClick={toggleDesignInfo}
-                  variant="ghost"
                   size="lg"
-                  className={`relative overflow-hidden transition-all duration-300 text-base font-semibold py-3 px-6 rounded-xl ${
+                  className={`header-button text-base font-semibold ${
                     showDesignInfo 
-                      ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-lg shadow-emerald-500/25' 
-                      : 'hover:bg-white/80 hover:shadow-lg backdrop-blur-sm'
+                      ? 'header-button-secondary' 
+                      : ''
                   }`}
                 >
                   <div className="flex items-center space-x-2">
                     <Info className="h-5 w-5" />
                     <span>Info</span>
-                    {showDesignInfo && <Star className="h-4 w-4 ml-1" />}
+                    {showDesignInfo && <Star className="h-4 w-4 ml-1 animate-pulse" />}
                   </div>
                 </Button>
               </TooltipTrigger>
@@ -244,13 +248,12 @@ export default function Home() {
                 <Button
                   onClick={handleSaveDesign}
                   disabled={isLoading}
-                  variant="ghost"
                   size="lg"
-                  className="transition-all duration-300 text-base font-semibold py-3 px-6 rounded-xl hover:bg-white/80 hover:shadow-lg backdrop-blur-sm"
+                  className="header-button text-base font-semibold"
                 >
                   <div className="flex items-center space-x-2">
                     {isLoading ? (
-                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-600"></div>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
                     ) : (
                       <Save className="h-5 w-5" />
                     )}
@@ -267,9 +270,8 @@ export default function Home() {
               <TooltipTrigger asChild>
                 <Button
                   onClick={handleShareDesign}
-                  variant="ghost"
                   size="lg"
-                  className="transition-all duration-300 text-base font-semibold py-3 px-6 rounded-xl hover:bg-white/80 hover:shadow-lg backdrop-blur-sm"
+                  className="header-button text-base font-semibold"
                 >
                   <div className="flex items-center space-x-2">
                     <Share className="h-5 w-5" />
@@ -286,9 +288,8 @@ export default function Home() {
               <TooltipTrigger asChild>
                 <Button
                   onClick={() => window.location.reload()}
-                  variant="ghost"
                   size="lg"
-                  className="transition-all duration-300 text-base font-semibold py-3 px-6 rounded-xl hover:bg-white/80 hover:shadow-lg backdrop-blur-sm"
+                  className="header-button text-base font-semibold"
                 >
                   <div className="flex items-center space-x-2">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -307,14 +308,13 @@ export default function Home() {
               <TooltipTrigger asChild>
                 <Button
                   onClick={togglePreviewMode}
-                  variant="ghost"
                   size="lg"
-                  className="transition-all duration-300 text-base font-semibold py-3 px-6 rounded-xl hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-600 hover:text-white hover:shadow-lg hover:shadow-purple-500/25 backdrop-blur-sm"
+                  className="header-button-accent text-base font-semibold"
                 >
                   <div className="flex items-center space-x-2">
                     <Expand className="h-5 w-5" />
                     <span>Preview</span>
-                    <Zap className="h-4 w-4 ml-1" />
+                    <Zap className="h-4 w-4 ml-1 animate-pulse" />
                   </div>
                 </Button>
               </TooltipTrigger>
@@ -325,19 +325,19 @@ export default function Home() {
           </div>
 
           {/* Right section - Enhanced Branding */}
-          <div className="flex items-center space-x-4">
-            <Separator orientation="vertical" className="h-8 bg-gradient-to-b from-transparent via-gray-300 to-transparent" />
+          <div className="flex items-center space-x-4 relative z-10">
+            <Separator orientation="vertical" className="h-10 bg-gradient-to-b from-transparent via-white/30 to-transparent" />
             <motion.div 
               className="flex items-center space-x-3"
               whileHover={{ scale: 1.02 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
               <div className="text-right">
-                <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Powered by</span>
+                <span className="text-xs font-semibold text-blue-200/80 uppercase tracking-wider">Powered by</span>
               </div>
               <div className="relative">
-                <img src={BIOREV_LOGO} alt="Biorev Technology" className="h-8 w-auto opacity-80" />
-                <div className="absolute -inset-1 bg-gradient-to-r from-green-600 to-blue-600 rounded-lg blur opacity-10 group-hover:opacity-30 transition duration-1000"></div>
+                <img src={BIOREV_LOGO} alt="Biorev Technology" className="h-8 w-auto filter brightness-0 invert opacity-90" />
+                <div className="absolute -inset-1 bg-gradient-to-r from-green-400 to-blue-400 rounded-lg blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
               </div>
             </motion.div>
           </div>
@@ -424,7 +424,7 @@ export default function Home() {
         ) : (
           <>
             {/* Enhanced Kitchen Preview - Main Content */}
-            <div className={`flex-1 relative overflow-hidden transition-all duration-500 ${showSidebar ? 'mr-[480px]' : ''}`}> 
+            <div className={`flex-1 relative overflow-hidden transition-all duration-500 ${showSidebar ? 'mr-[480px]' : ''} ${!isPreviewMode ? 'mt-0' : ''}`}> 
               <motion.div
                 className="kitchen-preview-container w-full h-full"
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -453,7 +453,7 @@ export default function Home() {
                 <Button
                   onClick={toggleSidebar}
                   size="lg"
-                  className="floating-action bg-white/95 hover:bg-white text-gray-900 font-semibold px-4 py-3 rounded-2xl shadow-2xl hover:shadow-3xl border border-white/60"
+                  className="floating-action bg-slate-900/90 hover:bg-slate-800/90 text-white font-semibold px-4 py-3 rounded-2xl shadow-2xl hover:shadow-3xl border border-white/20 backdrop-blur-xl"
                 >
                   <Menu className="h-5 w-5 mr-2" />
                   Customize
@@ -557,11 +557,12 @@ export default function Home() {
                   className="fixed right-0 top-20 bottom-0 w-[480px] z-20 overflow-hidden flex flex-col sidebar-panel"
                 >
                   {/* Premium Header with Enhanced Gradient */}
-                  <div className="relative p-8 bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white overflow-hidden">
+                  <div className="relative p-8 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
                     {/* Animated background elements */}
                     <div className="absolute inset-0">
-                      <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-blue-400/20 to-transparent rounded-full -translate-y-20 translate-x-20 animate-pulse-slow"></div>
-                      <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-indigo-400/20 to-transparent rounded-full translate-y-16 -translate-x-16 animate-float"></div>
+                      <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-blue-500/15 to-transparent rounded-full -translate-y-20 translate-x-20 animate-pulse-slow"></div>
+                      <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-indigo-500/15 to-transparent rounded-full translate-y-16 -translate-x-16 animate-float"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
                     </div>
                     
                     <div className="relative z-10">

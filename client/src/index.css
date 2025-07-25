@@ -150,9 +150,41 @@
 @layer components {
   /* Modern header styles */
   .app-header {
-    @apply bg-white/90 backdrop-blur-xl border-b border-white/20 shadow-sm;
-    background: linear-gradient(90deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%);
-    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    @apply bg-transparent backdrop-blur-xl;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 50%, rgba(51, 65, 85, 0.95) 100%);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.12);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Modern glass header buttons */
+  .header-button {
+    @apply relative overflow-hidden bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-2xl border border-white/20 hover:border-white/30 transition-all duration-300 backdrop-blur-sm;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.1);
+  }
+  
+  .header-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px 0 rgba(0, 0, 0, 0.15);
+  }
+  
+  .header-button.active {
+    @apply bg-gradient-to-r from-blue-500/80 to-indigo-600/80 border-blue-400/50;
+    box-shadow: 0 8px 25px 0 rgba(59, 130, 246, 0.3);
+  }
+  
+  .header-button-primary {
+    @apply bg-gradient-to-r from-blue-500/90 to-indigo-600/90 hover:from-blue-600/90 hover:to-indigo-700/90 border-blue-400/50 hover:border-blue-300/60;
+    box-shadow: 0 8px 25px 0 rgba(59, 130, 246, 0.25);
+  }
+  
+  .header-button-secondary {
+    @apply bg-gradient-to-r from-emerald-500/90 to-teal-600/90 hover:from-emerald-600/90 hover:to-teal-700/90 border-emerald-400/50 hover:border-emerald-300/60;
+    box-shadow: 0 8px 25px 0 rgba(16, 185, 129, 0.25);
+  }
+  
+  .header-button-accent {
+    @apply bg-gradient-to-r from-purple-500/90 to-pink-600/90 hover:from-purple-600/90 hover:to-pink-700/90 border-purple-400/50 hover:border-purple-300/60;
+    box-shadow: 0 8px 25px 0 rgba(147, 51, 234, 0.25);
   }
   
   /* Enhanced card styles */
